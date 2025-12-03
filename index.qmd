@@ -1,0 +1,7 @@
+---
+title: "Final Project Overview"
+---
+
+# Introduction
+
+This website presents a data-driven exploration of U.S. domestic flight activity using SQL-based extraction and Python visual analytics. The goal of this project is to highlight meaningful patterns in flight delays, cancellations, airline performance, and weekly traffic volume by transforming raw operational data into clear insights.

@@ -1,0 +1,104 @@
+---
+title: "Exploratory Analysis & Visuals"
+---
+
+# Visualizations
+
+```{python}
+#| echo: false
+# example code block
+import pandas as pd 
+import seaborn as sns
+import matplotlib.pyplot as plt
+df1=pd.read_csv("problem1.csv")
+df2=pd.read_csv("problem2.csv")
+df3=pd.read_csv("problem3.csv")
+df4=pd.read_csv("problem4.csv")
+df5=pd.read_csv("problem5.csv")
+df6a=pd.read_csv("problem6.csv")
+df6b=pd.read_csv("problem6b.csv")
+df7=pd.read_csv("problem7.csv")
+sns.lineplot(x='Name', y='max_dep_delay', data=df1)
+plt.xlabel("Airport Name")
+plt.title("Max Delay Minutes")
+plt.xticks(rotation=90)
+plt.show()
+```
+
+The line chart shows the maximum departure delay for each airline, and the differences are striking. The curve rises steadily, with some carriers showing delays close to 400–600 minutes, while others exceed 1,500 minutes, and a few even surpass 2,000 minutes.
+
+This pattern highlights that maximum delays vary dramatically across airlines and are heavily driven by rare but extremely disruptive events, such as severe weather, mechanical issues, or cascading delays across the network. The upward trend toward the right side of the plot indicates that several regional and major carriers experience far more severe delay outliers than the rest of the group.
+
+
+```{python}
+#| echo: false
+
+sns.lineplot(x='Name', y='max_dep_early', data=df2)
+plt.xlabel("Airport Name")
+plt.title("Max Early Minutes")
+plt.xticks(rotation=90)
+plt.show()
+```
+
+The line chart shows the maximum departure delay for each airline, and the differences are striking. The curve rises steadily, with some carriers showing delays close to 400–600 minutes, while others exceed 1,500 minutes, and a few even surpass 2,000 minutes.
+
+This pattern highlights that maximum delays vary dramatically across airlines and are heavily driven by rare but extremely disruptive events, such as severe weather, mechanical issues, or cascading delays across the network. The upward trend toward the right side of the plot indicates that several regional and major carriers experience far more severe delay outliers than the rest of the group.
+
+```{python}
+#| echo: false
+
+sns.lineplot(x='DayName', y='NumFlights', data=df3)
+plt.xlabel("Days")
+plt.title("Flight numbers in weeks")
+plt.xticks(rotation=90)
+plt.show()
+```
+
+The plot shows a clear weekly pattern in flight volume. Weekdays, especially from Tuesday to Thursday, have the highest number of flights, all above 100,000. Starting Friday, flight volume begins to drop, and the decline continues into the weekend. Saturday has the fewest flights by a large margin, suggesting that airlines schedule significantly fewer departures on weekends. This pattern reflects typical demand and scheduling practices, with peak activity occurring mid-week and reduced traffic toward the end of the week.
+
+```{python}
+#| echo: false
+
+df5
+```
+
+This result shows the airport with the highest average departure delay for each airline. The delays vary widely, driven not only by the airline itself but by airport-specific conditions. Some worst delays occur at major hubs (e.g., JetBlue at Houston), while others appear at small regional airports (e.g., Allegiant at St. Cloud), supporting the broader finding that smaller airports can be especially prone to severe delays.
+
+```{python}
+#| echo: false
+
+df6b.groupby("CancelReason")["NumCancel"].sum().sort_values(ascending=False)
+```
+#Across all airports, weather accounts for 1,883 cancellations, which is almost double the number of carrier-related cancellations (970) and nearly five times the number of National Air System cancellations (377).
+
+#This indicates that weather is the most influential and uncontrollable factor affecting flight disruptions, and it plays a significantly larger role than airline-specific issues or system-wide air traffic control constraints.
+```{python}
+#| echo: false
+
+df6b.groupby("AirportName")["NumCancel"].sum().sort_values(ascending=False).head(10)
+
+```
+The airports with the highest number of cancellations are mostly large hub airports, where traffic volume is high and disruptions propagate more easily.
+Dallas/Fort Worth (DFW) leads with 347 cancellations, followed by Denver (DEN) at 334. These airports experience a mixture of severe weather patterns and high operational loads, making them more vulnerable to cancellations.
+
+Chicago’s two major airports—Midway (MDW) and O’Hare (ORD)—also appear in the top list, suggesting that Midwestern weather conditions and heavy traffic play an important role in cancellation frequency. Major coastal hubs like Los Angeles (LAX) and New York’s LaGuardia and JFK also rank high, reflecting both their operational scale and congestion-related challenges.
+
+```{python}
+#| echo: false
+
+plt.figure(figsize=(10,6))
+
+sns.lineplot(x='FlightDate', y='NumFlights', label='NumFlights', data=df7)
+
+sns.lineplot(x='FlightDate', y='AvgFlightsPrev3Days', label='AvgFlightsPrev3Days', data=df7)
+
+plt.xlabel("Date")
+plt.ylabel("Flights")
+plt.title("Daily Flights vs. 3-Day Average")
+plt.xticks(rotation=90)
+plt.legend()
+plt.tight_layout()
+plt.show()
+```
+
+This plot visualizes the daily number of flights alongside a 3-day moving average. The daily series exhibits clear spikes and dips, suggesting a weekly cycle in flight volume. In contrast, the moving average smooths out these short-term fluctuations and reveals a relatively steady overall trend. The first two days are excluded from the moving-average line because insufficient historical data is available to compute the average.

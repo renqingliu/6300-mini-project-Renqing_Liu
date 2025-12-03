@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "My Final Project"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: analysis.qmd
+        text: Analysis
+      - href: results.qmd
+        text: SQL Results
+      - href: conclusion.qmd
+        text: Conclusion
+
+format:
+  html:
+    theme: flatly
+    toc: true
+    toc-depth: 3
